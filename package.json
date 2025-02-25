@@ -1,0 +1,13 @@
+{
+  "name": "zz_steammarkethistoryscraper",
+  "version": "1.0.0",
+  "main": "historyScraper.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node historyScraper.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
