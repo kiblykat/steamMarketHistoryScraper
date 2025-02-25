@@ -1,4 +1,5 @@
 import { readFile } from "fs/promises";
+import ExcelJS from "exceljs";
 
 let entireHistoryArray = [];
 const filenames = [
@@ -48,14 +49,43 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
   }
 
   //consolidatedArray: [steamItem, [+-], price][]
+  let entireHistoryArrayCounter = 0; // counter for entireHistoryArrayCounter
+
   for (let i = 0; i < priceArray.length; i++) {
-    entireHistoryArray.push([
-      steamItemsArray[i],
-      positiveNegativeArray[i],
-      priceArray[i],
-      dateArray[i],
-    ]);
+    if (i === 0) {
+      // Initialize the first entry
+      entireHistoryArray.push([
+        1,
+        steamItemsArray[i],
+        positiveNegativeArray[i],
+        priceArray[i],
+        dateArray[i],
+      ]);
+    } else {
+      // Check if the current entry is the same as the previous one
+      if (
+        steamItemsArray[i] === steamItemsArray[i - 1] &&
+        positiveNegativeArray[i] === positiveNegativeArray[i - 1] &&
+        priceArray[i] === priceArray[i - 1] &&
+        dateArray[i] === dateArray[i - 1]
+      ) {
+        // If the entry is the same, increment the count of the previous one
+        entireHistoryArray[entireHistoryArrayCounter][0] += 1;
+      } else {
+        // Otherwise, add the new entry to the array
+        entireHistoryArray.push([
+          1,
+          steamItemsArray[i],
+          positiveNegativeArray[i],
+          priceArray[i],
+          dateArray[i],
+        ]);
+        entireHistoryArrayCounter++;
+      }
+    }
   }
+
+  console.log(entireHistoryArray);
 };
 
 async function getEntireHistory(filenames) {
@@ -64,6 +94,21 @@ async function getEntireHistory(filenames) {
   }
   console.log(entireHistoryArray.length);
   console.log(entireHistoryArray);
+
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet("Sheet 1");
+
+  worksheet.addRows(entireHistoryArray);
+
+  // Writing to a file
+  workbook.xlsx
+    .writeFile("output.xlsx")
+    .then(() => {
+      console.log("File is written");
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 }
 
 //current structure: [steamItem, [+-], price]
