@@ -85,16 +85,6 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
     }
   }
 
-  console.log(entireHistoryArray);
-};
-
-async function getEntireHistory(filenames) {
-  for (let filename of filenames) {
-    await getConsolidatedArrays(filename, entireHistoryArray);
-  }
-  console.log(entireHistoryArray.length);
-  console.log(entireHistoryArray);
-
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet("Sheet 1");
 
@@ -109,6 +99,16 @@ async function getEntireHistory(filenames) {
     .catch((err) => {
       console.error(err);
     });
+
+  console.log(entireHistoryArray);
+};
+
+async function getEntireHistory(filenames) {
+  for (let filename of filenames) {
+    await getConsolidatedArrays(filename, entireHistoryArray);
+  }
+  console.log(entireHistoryArray.length);
+  console.log(entireHistoryArray);
 }
 
 //current structure: [steamItem, [+-], price]
