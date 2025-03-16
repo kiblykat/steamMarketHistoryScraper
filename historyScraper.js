@@ -19,7 +19,7 @@ const loadJSON = async (filename) => {
   }
 };
 
-// Get consolidated arrays of steamItems, price, and +/-, updates entireHistoryArray -> returns void
+// Get consolidated arrays of steamItems, price, and +/-, updates entireHistoryArray, mutates entireHistoryArray -> returns void
 const getConsolidatedArrays = async (filename, entireHistoryArray) => {
   const jsonData = await loadJSON(filename);
 
@@ -100,26 +100,26 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
       console.error(err);
     });
 
-  console.log(entireHistoryArray);
+  // console.log(entireHistoryArray);
 };
 
 async function getEntireHistory(filenames) {
   for (let filename of filenames) {
     await getConsolidatedArrays(filename, entireHistoryArray);
   }
-  console.log(entireHistoryArray.length);
-  console.log(entireHistoryArray);
+  // console.log(entireHistoryArray.length);
 }
 
 //current structure: [steamItem, [+-], price]
 const countSteamItemsProfit = async () => {
   await getEntireHistory(filenames);
   let hash = {};
+  console.log(entireHistoryArray);
 
   for (let i = 0; i < entireHistoryArray.length; i++) {
-    let steamItem = entireHistoryArray[i][0];
-    let price = parseFloat(entireHistoryArray[i][2]);
-    let positiveNegative = entireHistoryArray[i][1];
+    let steamItem = entireHistoryArray[i][1];
+    let price = parseFloat(entireHistoryArray[i][3]);
+    let positiveNegative = entireHistoryArray[i][2];
     // Ensure hash[steamItem] is always an object
     if (!hash[steamItem]) {
       hash[steamItem] = { totalCost: 0, quantity: 0 };
@@ -127,13 +127,13 @@ const countSteamItemsProfit = async () => {
     // Update costs
     if (positiveNegative === "+") {
       hash[steamItem].totalCost += price;
+      hash[steamItem].quantity += 1;
     } else {
       hash[steamItem].totalCost -= price;
+      hash[steamItem].quantity -= 1;
     }
-    // Update quantity
-    hash[steamItem].quantity += 1;
   }
-
+  console.log(hash)
   return hash;
 };
 
