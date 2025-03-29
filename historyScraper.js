@@ -114,7 +114,7 @@ async function getEntireHistory(filenames) {
 const countSteamItemsProfit = async () => {
   await getEntireHistory(filenames);
   let hash = {};
-  console.log(entireHistoryArray);
+  console.log("entireHistoryArray: ", entireHistoryArray);
 
   for (let i = 0; i < entireHistoryArray.length; i++) {
     let steamItem = entireHistoryArray[i][1];
@@ -133,7 +133,6 @@ const countSteamItemsProfit = async () => {
       hash[steamItem].quantity -= 1;
     }
   }
-  console.log(hash)
   return hash;
 };
 
