@@ -57,7 +57,7 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
       entireHistoryArray.push([
         1,
         steamItemsArray[i],
-        positiveNegativeArray[i],
+        positiveNegativeArray[i] == "+" ? "BUY": "SELL",
         priceArray[i],
         dateArray[i],
       ]);
@@ -76,7 +76,7 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
         entireHistoryArray.push([
           1,
           steamItemsArray[i],
-          positiveNegativeArray[i],
+          positiveNegativeArray[i] == "+" ? "BUY": "SELL",
           priceArray[i],
           dateArray[i],
         ]);
