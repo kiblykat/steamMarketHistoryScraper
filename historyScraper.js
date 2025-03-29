@@ -1,6 +1,5 @@
 import { readFile } from "fs/promises";
-import ExcelJS from "exceljs";
-
+import { writeToExcel } from "./excelWriter.js"; // Assuming you have a function to write to Excel
 let entireHistoryArray = [];
 const filenames = [
   "0-500.json",
@@ -84,22 +83,8 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
       }
     }
   }
-
-  const workbook = new ExcelJS.Workbook();
-  const worksheet = workbook.addWorksheet("Sheet 1");
-
-  worksheet.addRows(entireHistoryArray);
-
-  // Writing to a file
-  workbook.xlsx
-    .writeFile("output.xlsx")
-    .then(() => {
-      console.log("File is written");
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-
+  // Writing to an excel sheet
+  writeToExcel(entireHistoryArray);
   // console.log(entireHistoryArray);
 };
 
