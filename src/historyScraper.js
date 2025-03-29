@@ -1,22 +1,20 @@
-import { readFile } from "fs/promises";
-import { writeToExcel } from "./excelWriter.js"; // Assuming you have a function to write to Excel
-let entireHistoryArray = [];
+import { writeToExcel } from "./tools/excelWriter.js"; // Assuming you have a function to write to Excel
+import { loadJSON } from "./tools/jsonLoader.js";
 const filenames = [
-  "0-500.json",
-  "500-1000.json",
-  "1000-1500.json",
-  "1500-2000.json",
+  "data/0-500.json",
+  "data/500-1000.json",
+  "data/1000-1500.json",
+  "data/1500-2000.json",
 ];
 
-const loadJSON = async (filename) => {
-  try {
-    const jsonString = await readFile(filename, "utf8");
-    const jsonData = await JSON.parse(jsonString);
-    return jsonData;
-  } catch (err) {
-    console.error("Error reading JSON file:", err);
+async function getEntireHistory(filenames) {
+  let entireHistoryArray = [];
+
+  for (let filename of filenames) {
+    await getConsolidatedArrays(filename, entireHistoryArray);
   }
-};
+  // console.log(entireHistoryArray.length);
+}
 
 // Get consolidated arrays of steamItems, price, and +/-, updates entireHistoryArray, mutates entireHistoryArray -> returns void
 const getConsolidatedArrays = async (filename, entireHistoryArray) => {
@@ -85,15 +83,8 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
   }
   // Writing to an excel sheet
   writeToExcel(entireHistoryArray);
-  // console.log(entireHistoryArray);
+  console.log(entireHistoryArray);
 };
-
-async function getEntireHistory(filenames) {
-  for (let filename of filenames) {
-    await getConsolidatedArrays(filename, entireHistoryArray);
-  }
-  // console.log(entireHistoryArray.length);
-}
 
 //current structure: [steamItem, [+-], price]
 const countSteamItemsProfit = async () => {
@@ -121,4 +112,4 @@ const countSteamItemsProfit = async () => {
   return hash;
 };
 
-await countSteamItemsProfit();
+await getEntireHistory(filenames);
