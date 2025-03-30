@@ -110,12 +110,25 @@ const countSteamItemsProfit = async () => {
   return hash;
 };
 
-await getEntireHistory(filenames);
+export async function scrapeAndCleanHistory() {
+  await getEntireHistory(filenames);
 
-// fill up missing dates
-for (let i = 1; i < entireHistoryArray.length; i++) {
-  if (entireHistoryArray[i][4] === undefined) {
-    entireHistoryArray[i][4] = entireHistoryArray[i - 1][4]; // Fill with the previous date
+  // fill up missing dates
+  for (let i = 1; i < entireHistoryArray.length; i++) {
+    if (entireHistoryArray[i][4] === undefined) {
+      entireHistoryArray[i][4] = entireHistoryArray[i - 1][4]; // Fill with the previous date
+    }
   }
+  // Remove undefined items
+  for (let i = 1; i < entireHistoryArray.length; i++) {
+    if (entireHistoryArray[i][1] === undefined) {
+      entireHistoryArray.splice(i, 1); // Remove the item
+      i--; // Decrement i to account for the removed item
+    }
+  }
+  let updatedArr = addParsedYear(entireHistoryArray, 2025); // Assuming the initial year is 2025
+  console.log(updatedArr[updatedArr.length - 1]); // Check the last date in the updated array
+  return updatedArr;
 }
-addParsedYear(entireHistoryArray, 2025); // Assuming the initial year is 2023
+
+scrapeAndCleanHistory(); // Call the function to execute the scraping and cleaning process
