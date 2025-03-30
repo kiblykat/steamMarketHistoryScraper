@@ -40,7 +40,7 @@ export function addParsedYear(currentArr, initialYear) {
     updatedArr[i][4] = `${updatedYear}-${String(currMonth).padStart(
       2,
       "0"
-    )}-${currDay}`;
+    )}-${String(currDay).padStart(2, "0")}`; // Update the date with the new year
   }
 
   // Handle the first entry separately
@@ -49,8 +49,8 @@ export function addParsedYear(currentArr, initialYear) {
   updatedArr[0][4] = `${initialYear}-${String(hash[firstMonth]).padStart(
     2,
     "0"
-  )}-${firstDate[0]}`; // Set the first date to the current year and month
-  console.log(updatedArr);
+  )}-${String(firstDate[0]).padStart(2, "0")}`; // Set the first date to the current year and month
+  return updatedArr;
 }
 
 // ================================ TEST CASE ================================
