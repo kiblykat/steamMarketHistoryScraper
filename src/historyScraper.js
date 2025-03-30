@@ -1,3 +1,4 @@
+import { addParsedYear } from "./tools/addParsedYear.js";
 import { writeToExcel } from "./tools/excelWriter.js"; // Assuming you have a function to write to Excel
 import { loadJSON } from "./tools/jsonLoader.js";
 const filenames = [
@@ -110,4 +111,11 @@ const countSteamItemsProfit = async () => {
 };
 
 await getEntireHistory(filenames);
-console.log("entireHistoryArray: ", entireHistoryArray);
+
+// fill up missing dates
+for (let i = 1; i < entireHistoryArray.length; i++) {
+  if (entireHistoryArray[i][4] === undefined) {
+    entireHistoryArray[i][4] = entireHistoryArray[i - 1][4]; // Fill with the previous date
+  }
+}
+addParsedYear(entireHistoryArray, 2025); // Assuming the initial year is 2023
