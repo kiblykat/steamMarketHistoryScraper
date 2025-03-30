@@ -4,8 +4,10 @@ input: [[ 10, 'Fracture Case', 'BUY', '0.74', '25 Feb' ],...]
 output: [[ 10, 'Fracture Case', 'BUY', '0.74', 'YYYY-MM-DD' ],...]
 */
 
-export function addParsedYear(currentArr, initialYear, updatedArr) {
+export function addParsedYear(currentArr, initialYear) {
   console.log("Adding parsed year to currentArr...");
+  const updatedArr = structuredClone(currentArr); // Create a deep copy of currentArr
+
   const hash = {
     Jan: 1,
     Feb: 2,
@@ -51,14 +53,14 @@ export function addParsedYear(currentArr, initialYear, updatedArr) {
   console.log(updatedArr);
 }
 
-const currentArr = [
-  [10, "Fracture Case", "BUY", "0.74", "25 Feb"], //2
-  [5, "Fracture Case", "SELL", "0.74", "26 Feb"], //2
-  [1, "Fracture Case", "BUY", "0.74", "27 Mar"], //3
-  [2, "Fracture Case", "SELL", "0.74", "28 Dec"], //12
-  [2, "Fracture Case", "SELL", "0.74", "28 Mar"], //3
-];
+// ================================ TEST CASE ================================
+// const currentArr = [
+//   [15, "Fracture Case", "BUY", "0.74", "3 Mar"], //3-25
+//   [10, "Fracture Case", "BUY", "0.74", "25 Feb"], //2-25
+//   [5, "Fracture Case", "SELL", "0.74", "26 Mar"], //3-24
+//   [1, "Fracture Case", "BUY", "0.74", "27 Mar"], //3-24
+//   [2, "Fracture Case", "SELL", "0.74", "28 Dec"], //12-23
+//   [2, "Fracture Case", "SELL", "0.74", "23 Mar"], //3-23
+// ];
 
-const updatedArr = structuredClone(currentArr); // Create a deep copy of currentArr
-
-addParsedYear(currentArr, 2025, updatedArr);
+// addParsedYear(currentArr, 2025);
