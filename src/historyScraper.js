@@ -130,5 +130,3 @@ export async function scrapeAndCleanHistory() {
   console.log(updatedArr[updatedArr.length - 1]); // Check the last date in the updated array
   return updatedArr;
 }
-
-scrapeAndCleanHistory(); // Call the function to execute the scraping and cleaning process
