@@ -6,10 +6,9 @@ const filenames = [
   "data/1000-1500.json",
   "data/1500-2000.json",
 ];
+let entireHistoryArray = [];
 
 async function getEntireHistory(filenames) {
-  let entireHistoryArray = [];
-
   for (let filename of filenames) {
     await getConsolidatedArrays(filename, entireHistoryArray);
   }
@@ -54,7 +53,7 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
       entireHistoryArray.push([
         1,
         steamItemsArray[i],
-        positiveNegativeArray[i] == "+" ? "BUY": "SELL",
+        positiveNegativeArray[i] == "+" ? "BUY" : "SELL",
         priceArray[i],
         dateArray[i],
       ]);
@@ -73,7 +72,7 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
         entireHistoryArray.push([
           1,
           steamItemsArray[i],
-          positiveNegativeArray[i] == "+" ? "BUY": "SELL",
+          positiveNegativeArray[i] == "+" ? "BUY" : "SELL",
           priceArray[i],
           dateArray[i],
         ]);
@@ -83,14 +82,12 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
   }
   // Writing to an excel sheet
   writeToExcel(entireHistoryArray);
-  console.log(entireHistoryArray);
 };
 
 //current structure: [steamItem, [+-], price]
 const countSteamItemsProfit = async () => {
   await getEntireHistory(filenames);
   let hash = {};
-  console.log("entireHistoryArray: ", entireHistoryArray);
 
   for (let i = 0; i < entireHistoryArray.length; i++) {
     let steamItem = entireHistoryArray[i][1];
@@ -113,3 +110,4 @@ const countSteamItemsProfit = async () => {
 };
 
 await getEntireHistory(filenames);
+console.log("entireHistoryArray: ", entireHistoryArray);
