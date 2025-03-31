@@ -8,7 +8,6 @@ const filenames = [
   "data/1500-2000.json",
 ];
 let entireHistoryArray = [];
-let entireHistoryArrayCounter = 0; // counter for entireHistoryArrayCounter
 
 async function getEntireHistory(filenames) {
   for (let filename of filenames) {
@@ -66,8 +65,8 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
         priceArray[i] === priceArray[i - 1] &&
         dateArray[i] === dateArray[i - 1]
       ) {
-        // If the entry is the same, increment the count of the previous one
-        entireHistoryArray[entireHistoryArrayCounter][0] += 1;
+        // If the entry is the same, increment the quantity of the last element input one
+        entireHistoryArray[entireHistoryArray.length - 1][0] += 1;
       } else {
         // Otherwise, add the new entry to the array
         entireHistoryArray.push([
@@ -77,13 +76,8 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
           priceArray[i],
           dateArray[i],
         ]);
-        entireHistoryArrayCounter++;
       }
     }
-  }
-
-  for (let arr of entireHistoryArray) {
-    arr[2] = arr[2] === "+" ? "BUY" : "SELL"; // Convert + and - to BUY and SELL
   }
 
   // Writing to an excel sheet
@@ -118,7 +112,7 @@ const countSteamItemsProfit = async () => {
 export async function scrapeAndCleanHistory() {
   await getEntireHistory(filenames);
 
-  // fill up missing dates
+  // fill up missing dates and convert +/- to BUY/SELL
   for (let i = 1; i < entireHistoryArray.length; i++) {
     if (entireHistoryArray[i][4] === undefined) {
       entireHistoryArray[i][4] = entireHistoryArray[i - 1][4]; // Fill with the previous date
@@ -132,8 +126,11 @@ export async function scrapeAndCleanHistory() {
     }
   }
   let updatedArr = addParsedYear(entireHistoryArray, 2025); // Assuming the initial year is 2025
+
+  for (let arr of updatedArr) {
+    arr[2] = arr[2] === "+" ? "BUY" : "SELL"; // Convert + and - to BUY and SELL
+  }
+
   console.log(updatedArr); // Check the last date in the updated array
   return updatedArr;
 }
-
-scrapeAndCleanHistory();
