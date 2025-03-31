@@ -8,6 +8,7 @@ const filenames = [
   "data/1500-2000.json",
 ];
 let entireHistoryArray = [];
+let entireHistoryArrayCounter = 0; // counter for entireHistoryArrayCounter
 
 async function getEntireHistory(filenames) {
   for (let filename of filenames) {
@@ -45,8 +46,7 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
     steamItemsArray.push(jsonData["assets"][730][2][item]["name"]);
   }
 
-  //consolidatedArray: [steamItem, [+-], price][]
-  let entireHistoryArrayCounter = 0; // counter for entireHistoryArrayCounter
+  //consolidatedArray: [quantity, itemName, BUY/SELL, price, date][]
 
   for (let i = 0; i < priceArray.length; i++) {
     if (i === 0) {
@@ -54,7 +54,7 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
       entireHistoryArray.push([
         1,
         steamItemsArray[i],
-        positiveNegativeArray[i] == "+" ? "BUY" : "SELL",
+        positiveNegativeArray[i],
         priceArray[i],
         dateArray[i],
       ]);
@@ -73,7 +73,7 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
         entireHistoryArray.push([
           1,
           steamItemsArray[i],
-          positiveNegativeArray[i] == "+" ? "BUY" : "SELL",
+          positiveNegativeArray[i],
           priceArray[i],
           dateArray[i],
         ]);
@@ -81,6 +81,11 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
       }
     }
   }
+
+  for (let arr of entireHistoryArray) {
+    arr[2] = arr[2] === "+" ? "BUY" : "SELL"; // Convert + and - to BUY and SELL
+  }
+
   // Writing to an excel sheet
   writeToExcel(entireHistoryArray);
 };
@@ -127,6 +132,8 @@ export async function scrapeAndCleanHistory() {
     }
   }
   let updatedArr = addParsedYear(entireHistoryArray, 2025); // Assuming the initial year is 2025
-  console.log(updatedArr[updatedArr.length - 1]); // Check the last date in the updated array
+  console.log(updatedArr); // Check the last date in the updated array
   return updatedArr;
 }
+
+scrapeAndCleanHistory();
