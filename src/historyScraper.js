@@ -10,6 +10,10 @@ const filenames = [
 let entireHistoryArray = [];
 
 async function getEntireHistory(filenames) {
+  console.log(
+    "positiveNegativeArray - priceArray - dateArray - steamItemsArray"
+  );
+
   for (let filename of filenames) {
     await getConsolidatedArrays(filename, entireHistoryArray);
   }
@@ -28,7 +32,8 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
   const priceLookupRegex =
     /(?<=market_listing_price\"\u003E\n\t\t\t\t\t\t\t\tS\$)\d+\.\d+/g;
 
-  const dateLookupRegex = /(?<=Purchased:\s)\d+\s[a-zA-Z]+/g;
+  const dateLookupRegex =
+    /(?<=\n\t\u003C\/div\u003E\n\t\u003Cdiv class="market_listing_right_cell market_listing_listed_date can_combine"\u003E\n\t\t)\d+\s[a-zA-Z]+/g;
 
   //Get array of + and - values
   const positiveNegativeArray = priceTransactionData.match(
@@ -44,6 +49,17 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
   for (let item in jsonData["assets"][730][2]) {
     steamItemsArray.push(jsonData["assets"][730][2][item]["name"]);
   }
+  // THE LENGTHS ARE NOT THE SAME!
+  console.log(
+    "        " +
+      positiveNegativeArray.length +
+      "           -     " +
+      priceArray.length +
+      "    -    " +
+      dateArray.length +
+      "    -    " +
+      steamItemsArray.length
+  );
 
   //consolidatedArray: [quantity, itemName, BUY/SELL, price, date][]
 
@@ -131,6 +147,10 @@ export async function scrapeAndCleanHistory() {
     arr[2] = arr[2] === "+" ? "BUY" : "SELL"; // Convert + and - to BUY and SELL
   }
 
-  console.log(updatedArr); // Check the last date in the updated array
+  // Remove duplicates based on the first three elements (quantity, itemName, BUY/SELL)
+  console.log(updatedArr.slice(170, 200));
+  // console.log(updatedArr); // Check the last date in the updated array
   return updatedArr;
 }
+
+scrapeAndCleanHistory();
