@@ -8,7 +8,7 @@ const rawData = jsonData.results_html;
 
 // Step 2: Regex to extract details
 const regex =
-  /market_listing_gainorloss.*?>\s*([\+\-])\s*<\/div>.*?market_listing_price.*?S\$\s*([\d.]+).*?market_listing_listed_date.*?(\d+ \w+).*?market_listing_item_name.*?>(.*?)<\/span>/gs;
+  /market_listing_gainorloss.*?>\s*([\+\-])\s*<\/div>.*?market_listing_price.*?S\$\s*([\d.]+).*?market_listing_listed_date.*?(\d+ \w+).*?market_listing_item_name\".*?>(.*?)<\/span>/gs;
 
 // Step 3: Extract matches
 const matches = [...rawData.matchAll(regex)];
@@ -22,5 +22,7 @@ const result = matches.map((match) => [
 ]);
 
 console.log(result.length); // Number of matches found
-console.log(result[0]); // Number of matches found
-console.log(result[499]); // Number of matches found
+console.log(result[0]);
+console.log(result[1]);
+console.log(result[255]);
+console.log(result[499]);
