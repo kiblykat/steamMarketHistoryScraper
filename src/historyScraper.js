@@ -96,5 +96,3 @@ export async function scrapeAndCleanHistory() {
   console.log(updatedArr.slice(0, 100));
   return updatedArr;
 }
-
-scrapeAndCleanHistory();

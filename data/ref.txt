@@ -1,1 +1,1 @@
-endpoint for history: https://steamcommunity.com/market/myhistory/render/?query=&start=500&count=500
+endpoint for history: https://steamcommunity.com/market/myhistory/render/?query=&start=0&count=500
