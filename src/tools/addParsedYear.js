@@ -25,10 +25,10 @@ export function addParsedYear(currentArr, initialYear) {
 
   let updatedYear = initialYear; // Initialize updatedYear with the initial year
   for (let i = 1; i < currentArr.length; i++) {
-    if (currentArr[i - 1][4] === undefined) continue; // Skip if date is undefined
-    if (currentArr[i][4] === undefined) continue; // Skip if date is undefined
-    let prevDate = currentArr[i - 1][4].split(" ");
-    let currDate = currentArr[i][4].split(" ");
+    if (currentArr[i - 1][3] === undefined) continue; // Skip if date is undefined
+    if (currentArr[i][3] === undefined) continue; // Skip if date is undefined
+    let prevDate = currentArr[i - 1][3].split(" ");
+    let currDate = currentArr[i][3].split(" ");
     let prevMonth = prevDate[1];
     let currMonth = currDate[1];
     prevMonth = hash[prevMonth]; // Convert prevMonth name to number
@@ -37,16 +37,16 @@ export function addParsedYear(currentArr, initialYear) {
       updatedYear -= 1; // Decrease the year if the current month is less than the previous month
     }
     let currDay = currDate[0];
-    updatedArr[i][4] = `${updatedYear}-${String(currMonth).padStart(
+    updatedArr[i][3] = `${updatedYear}-${String(currMonth).padStart(
       2,
       "0"
     )}-${String(currDay).padStart(2, "0")}`; // Update the date with the new year
   }
 
   // Handle the first entry separately
-  let firstDate = currentArr[0][4].split(" ");
+  let firstDate = currentArr[0][3].split(" ");
   let firstMonth = firstDate[1];
-  updatedArr[0][4] = `${initialYear}-${String(hash[firstMonth]).padStart(
+  updatedArr[0][3] = `${initialYear}-${String(hash[firstMonth]).padStart(
     2,
     "0"
   )}-${String(firstDate[0]).padStart(2, "0")}`; // Set the first date to the current year and month

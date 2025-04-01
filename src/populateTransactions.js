@@ -11,11 +11,11 @@ async function populateDatabase(req, res) {
         "http://localhost:5000/transactions/create",
         {
           uid: "kiblykat",
-          steamItem: arr[1], //this needs to be changed to itemName once the backend is updated
-          price: arr[3],
-          type: arr[2],
+          steamItem: arr[4], //this needs to be changed to itemName once the backend is updated
+          price: arr[2],
+          type: arr[1],
           quantity: arr[0],
-          date: arr[4],
+          date: arr[3],
         }
       );
       console.log(response.data);
