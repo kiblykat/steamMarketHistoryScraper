@@ -100,31 +100,6 @@ const getConsolidatedArrays = async (filename, entireHistoryArray) => {
   writeToExcel(entireHistoryArray);
 };
 
-//current structure: [steamItem, [+-], price]
-const countSteamItemsProfit = async () => {
-  await getEntireHistory(filenames);
-  let hash = {};
-
-  for (let i = 0; i < entireHistoryArray.length; i++) {
-    let steamItem = entireHistoryArray[i][1];
-    let price = parseFloat(entireHistoryArray[i][3]);
-    let positiveNegative = entireHistoryArray[i][2];
-    // Ensure hash[steamItem] is always an object
-    if (!hash[steamItem]) {
-      hash[steamItem] = { totalCost: 0, quantity: 0 };
-    }
-    // Update costs
-    if (positiveNegative === "+") {
-      hash[steamItem].totalCost += price;
-      hash[steamItem].quantity += 1;
-    } else {
-      hash[steamItem].totalCost -= price;
-      hash[steamItem].quantity -= 1;
-    }
-  }
-  return hash;
-};
-
 export async function scrapeAndCleanHistory() {
   await getEntireHistory(filenames);
 
