@@ -71,5 +71,5 @@ Example: </br>
 
 ## Limitations
 
-For some reason, I can't find any steam endpoint that includes years for the dates within steam market. For that reason, I created a function addParsedYear to handle this. The limitation of this function is that the algorithm only works accurately if you frequently trade (i.e the longest duration between any trade is 11 months). It is not guaranteed to work properly otherwise.
-If you found one, feel free to use your own instead and modify the code. This works for me so I'll stick with it
+For some reason, I can't find any steam endpoint that includes years for the dates within steam market (eg "25 Feb"). I created a function addParsedYear to handle this. The limitation of this function is that the algorithm only works accurately if you frequently trade (i.e the longest duration between any previous trade is 11 months). It is not guaranteed to work properly otherwise.
+If you found one, feel free to use your own instead and modify the code.
