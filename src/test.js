@@ -22,7 +22,4 @@ const result = matches.map((match) => [
 ]);
 
 console.log(result.length); // Number of matches found
-console.log(result[0]);
-console.log(result[1]);
-console.log(result[255]);
-console.log(result[499]);
+console.log(result.slice(100, 200));
